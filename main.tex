@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+
+\include{common/tex/packages}
+\include{common/tex/configuration}
+\include{common/tex/globals}
+
+\preauthor{}
+\DeclareRobustCommand{\authorthing}{
+\begin{center}
+\begin{tabular}{cccc}
+    Michael Cowan & Zhaojin Li & Tianhao Hu & \authortext \\
+    \texttt{45297801} & \texttt{46002552} &  \texttt{47364163} & \texttt{\studentno} \\
+\end{tabular} \\[1.5cm]
+\end{center}}
+\author{\authorthing}
+\postauthor{}
+\bibliography{project/proposal/references}
+
+\begin{document}
+\include{project/proposal/sections/00_cover}
+\tableofcontents
+\include{project/proposal/sections/01_abstract}
+\include{project/proposal/sections/02_introduction}
+\include{project/proposal/sections/03_background}
+\include{project/proposal/sections/04_related_works}
+\include{project/proposal/sections/05_project_aim}
+\include{project/proposal/sections/06_methodology}
+\include{project/proposal/sections/07_project_plan}
+\include{project/proposal/sections/08_progress_so_far}
+\include{project/proposal/sections/09_references}
+\include{project/proposal/sections/10_appendix}
+
+
+\end{document}

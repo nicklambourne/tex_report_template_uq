@@ -1,0 +1,78 @@
+\section{Progress So Far} \label{sec:progress}
+% • You should provide a summary of progress that has been made towards the stated project goals.
+
+% State which milestones have been completed so far
+Our progress so far has focused on establishing our project framework, including establishing team communication methods, project repository setup, and selection of management tools as well as conducting research to determine the details of our implementation. We have also completed some of our milestone sub-tasks including the creation of the web application server and test network. Specific details of our progress can be found below in each subsection. 
+
+\subsection{Methods of Work}
+Initially we established our methods of communication, version control application and project management software that our team would use to complete the project. A non-exhaustive list of the tools and their usage is listed below.
+\begin{itemize}
+    \item Slack\cite{slack}: Primary method of team communication.
+    \item Zoom\cite{zoom}: Our team meets weekly on Mondays at 19:30, with additional meetings scheduled as required, these meeting are conducted remotely via Zoom.
+    \item Github\cite{github}: Our teams repository is hosted on Github and contains all source code for our web application server, load balancer application and our written reports.
+    \item Google Drive\cite{googDrive}: In addition to Github some source material and ancillary information is hosted on the teams shared Google Drive
+    \item Overleaf\cite{overleaf}: All reports are written in \LaTeX using this collaborative online editor.
+    \item Clickup\cite{clickup}: Free project management software which we have used to assign tasks to individuals and track progress. Our team has adopted a Kanban style framework for task allocation which this software. facilitates. 
+\end{itemize}
+
+\subsubsection{Repository Setup}
+A Bazel \cite{bazel_2022} monorepo has been set up to contain both the documentation (including this proposal) and source code for the various components of the project. Bazel was chosen as it has the capacity to build almost any artefact, no matter the language. This flexibility should ensure that each component is built in the best-suited language.
+
+\subsection{Network Topology}
+To create our web application server in Mininet as custom python script was created that deploys the switch and hosts and configures the connections between each. The code to generate this topology can be found below in Figure X.
+
+\begin{lstlisting}[language=python]
+"""
+Web Application Server Load Balancing Test Network
+
+A single switch connected to n hosts each running a web app server instance:
+                  switch
+                /  / \  \
+	             /  /   \  \                
+  	        host host ... host
+"""
+
+from mininet.topo import Topo
+
+class MyTopo(Topo):
+    """Web Application Server Topology."""
+
+    def build(self, host_count: int = 10):
+        """Create a custom topology."""
+
+        # Add switch and hosts
+        switch = self.addSwitch('s1')
+        hosts = [self.addHost(f"host{x}") for x in range(host_count)]
+
+        # Add links
+        for host in hosts:
+            self.addLink(switch, host)
+
+
+topos = {'mytopo': (lambda: MyTopo())} 
+\end{lstlisting}
+\begin{center}
+Figure x.
+\end{center}
+
+\subsection{Relevant ONOS API Identification}
+Whilst researching the technical requirements for implementing a load balancing application for ONOS, a number of API classes were identified as essential for integrating our application with the ONOS controller. These APIs are listed below with a brief description of some of the applicable method calls. However, this list is not exhaustive and it is likely the application will integrate with a much larger set of API packages:
+\begin{itemize}
+    \item \lstinline{org.onosproject.core}: the core ONOS API package 
+    \item \lstinline{org.onosproject.net.device}: package containing information on network devices, such as switches, and provides methods for interaction and monitoring of the device.
+    \item \lstinline{org.onosproject.net.host}: package containing information on end-point hosts and methods for interacting with hosts
+    \item \lstinline{org.onosproject.net.packet}: package used in the processing of both inbound and outbound packets
+    \item \lstinline{org.onlab.packet}: package containing methods for deciphering packets and their header information
+\end{itemize}
+
+\subsection{Load Balancing Algorithm Selection}
+Our team has made progress to achieving Milestone 0 by researching load balancing algorithms and how they could potentially be applied to SDNs, however at this early stage of application development our team still has a number of questions around the feasibility of implementing some of the more complex algorithms. The main concern being efficient gathering of the appropriate statistics for the algorithm to operate.
+
+Our team has, however, initially selected the Randomized and Round Robin algorithms to be implemented first. Initially implementing these two algorithms will generate familiarity with ONOS and the OpenFlow protocol and will help decide what we can then subsequently achieve. With this in mind we have selected Resource Based and Least Connection algorithms as our secondary candidates.
+
+\subsection{Web Application Server} % Nick
+Milestone 3 details the need for a web application server to act as the ultimate endpoint for the requests, simulating the horizontally distributed nature of large-scale web applications that make up common online services.
+
+To this end a simple configurable server has been developed using Python and the micro-framework library Flask \cite{flask}. This web server is very basic, accepting requests and returning canned responses, but allows for a optional, configurable delay to simulate the (possibly) extended delays caused by the time taken by the processing of business logic in response to the request.
+
+Appendix \ref{app:web_server} shows the entry point and core routing logic of the web application server prototype at the present stage.

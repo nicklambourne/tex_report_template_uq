@@ -1,0 +1,56 @@
+\begin{appendices}
+\addcontentsline{toc}{section}{Appendix}
+
+
+\section{Web Application Server Prototype} \label{app:web_server}
+\begin{lstlisting}[language=python,caption={main.py},captionpos=b]
+import click
+import flask
+from loguru import logger
+
+from project.client.src import routing
+
+
+@click.group
+def main():
+    pass
+
+
+@main.command
+@click.option("--delay", type=float, required=False, help="Baseline simulated processing delay")
+@click.option("--flutter", type=float, required=False, help="Maximum +/- variation in processing delay")
+def serve(delay: float = 0, flutter: float = 0):
+    app = flask.Flask(__name__)
+    app.config["DELAY"] = delay
+    app.config["FLUTTER"] = flutter
+    routing.register_routes(app)
+    logger.info("Starting web application server")
+    app.run()
+
+
+if __name__ == "__main__":
+    main()
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=python,caption={routing.py},captionpos=b]
+import random
+import time
+
+import flask
+
+
+def register_routes(app: flask.Route) -> None:
+    @app.route("/")
+    def home():
+        flutter = app.config.get("FLUTTER")
+        time.sleep(app.config.get("DELAY") + random.uniform(-flutter, flutter)
+        return "Hello, COMS6200!"
+
+\end{lstlisting}
+
+
+
+
+
+\end{appendices}
