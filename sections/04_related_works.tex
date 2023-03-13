@@ -1,52 +1,5 @@
 \section{Related Work} \label{sec:related_work}
 % You should discuss key related works, both in terms of academic research as well as industry solutions. You should discuss how your proposed project relates to these other works, e.g. what is similar, what is different. It is very important that you provide the relevant references here.
-\subsection{Extant (Commercial) Load Balancers}
-% \TODO{Double check this section! Significant Rework conducted.}
-% There are a number of open source software based load balancers available for integration into networks with the supporting infrastructure. Some large companies such as Google and Amazon have spent significant resources in the construction of these software load balancers, some of which are detailed in the below subsections.
+\subsection{Example Subsection}
+\todo{Add content here}
 
-\subsubsection{NGINX}
-NGINX has created an web server product that, in addition to many other functions, can operate as a load balancer \cite{nginxPlus}. NGINX's open source implementation supports multiple different load balancing algorithms based around different strategies for distributing load across application server groups \cite{nginxPlus}. Just as our proposal aims to implement a number of load balancing algorithms, NGINX already supports multiple algorithms including Round Robin, Least Connections, Random, IP Hash, Generic Hash and Least Connection Time \cite{nginxPlus}. Where the NGINX product differs from our proposed solution is that it is designed to be run at the application level - not the network level - typically on a dedicated server, forwarding requests on to other application servers.
-
-\subsubsection{Amazon Web Services - Elastic Load Balancer}
-Another widely used (albeit not open source) commercial load balancer is that provided by Amazon Web Services in their Elastic Load Balancer (ELB) product. ELB is uncommon in that it offers products that can either operate at the application level (it is assumed on either generic - e.g. EC2 - hardware or more specialised, dedicated hardware) like other commercial load balancers (see Figure \ref{fig:app_level}) or at the (Layer 4) network level (see Figure \ref{fig:net_level}) \cite{awsALB}. 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=10cm]{project/proposal/img/alb.png}
-    \caption{The Architecture of the Application-Level Offering of AWS ELB}
-    \label{fig:app_level}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=10cm]{project/proposal/img/nlb.png}
-    \caption{The Network-Level Offering of AWS ELB}
-    \label{fig:net_level}
-\end{figure}
-
-We aim to effectively replicate the network-level implementation of this product, but given the closed-source nature of AWS ELB there is little to be observed at an implementation level. Our intent is to achieve a similar result in the context of an ONOS application.
-
-% Maglev (google): 
-%\TODO{Maglev: \url{https://drive.google.com/file/d/1WrRT0jPRjriBKAPKSKYRzza10kSltJ9X/view?usp=sharing}}
-% \subsubsection{Maglev}
-% In our project, in order to properly test the load balancer under production-like conditions it will be necessary to set up a test network. Thankfully Mininet makes this efficient, straightforward and repeatable. So we both want to have a software rather than a hardware server group. Maglev, different from the conventional computer hardware load balancer, works as a distributed software system, running on the merchandise server\cite{Maglev}. Hardware load balancers are usually deployed as active-passive pairs,  Maglev provides better efficiency and resiliency by running all servers in active mode and supplies much higher throughput than those virtual load balancers\cite{Maglev}. What’s more, the requirement of hardware load balancer capacity to be graded is that buy the new hardware likewise deploy it physically, causing on-demand capacity adjustment becoming more difficult. But then, it will just up or down their capacity without giving rise to any service disruption.
-
-% Cloud
-%\TODO{AWS ALB: \url{https://aws.amazon.com/elasticloadbalancing/} \url{https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/elb-ug.pdf}}
-% Compared with using a Classic Load Balancer, the Application Load Balancer is having the following advantages: Firstly, path conditions are supported. While we can configure rules for the listener to forward requests based on the URL in the request\cite{awsALB}. This allows us to build our app as a smaller service and route requests to the right service based on the content of the URL and allows you to route requests to multiple domains using a single load balancer\cite{awsALB}. Route requests based on fields in the request. Route requests to multiple applications on a single EC2 instance.It can distributes incoming traffic among multiple targets in one or more Availability Zones automatically. It monitors the health of its registered targets and routes traffic to health targets only. Elastic Load Balancing is a load balancer that scales as incoming traffic changes over time. It can scale to most workloads automatically.
-
-% Discuss why HW LBs might be desirable
-%\subsubsection{HW LBs}
-
-% \subsection{Load Balancing - Current Issues}
-% Load inbalance is a multi variable and multi constraint problem, which will reduce the performance and efficiency of computing resources\cite{CloudComputing}. Load balancing technology provides a solution to the load imbalance of two undesirable aspects (overload and insufficient load).
-% According to the retrospect conducted in the process of this study, it can arrival at a conclusion that there are still maintaining a great amount of problems to be resolved in the process of load balancing, which can be solved by applying efficient and complex load balancing algorithms in the future, and it would be of interest to is the dimension along the additional QoS metrics while the algorithm complexity evaluation\cite{CloudComputing}.
-
-\subsection{Similar Approaches to Our Proposal}
-In researching our proposed topic it became evident there have been previous attempts at evaluating load balancing algorithms in a Software Defined Network.
-
-\subsubsection{Giri et al. (2018)}
-Giri et al. (2018) uses a very similar approach to ours by creating a load balancing application that interfaces with the ONOS controller platform and then utilises an emulated test network built with Mininet to evaluate the load balancing algorithms on a fat tree topology \cite{performanceSDN}. However, the paper's focus centers on evaluating the difference between two different packet routing algorithms A* and Djikstra's and the resultant load on the network links rather than the end-point hosts\cite{performanceSDN}. Response time as the number of requests and hosts increased was used as the primary metric for evaluation of the network load. Their results found that Djikstra's algorithm, which is ONOS default packet routing algorithm, was the most effective packet routing algorithm when compared to A*\cite{performanceSDN}. Although their approach to application integration and test network development are the same, our approach differs in that we are focusing on evaluating the distributed load amongst a bank of web application servers.
-
-\subsubsection{ Saisagar et al. (2017)}
-Another approach was researched by Saisagar et al. who, using both ONOS as the controller platform and Mininet for the test network, developed a deterministic load balancing algorithm and evaluated its efficiency in comparison to Dijkstra's algorithm \cite{saisagar2017sdn}. Similar to Giri et al.  \cite{performanceSDN}, a common fat tree data center topology was used with the focus on balancing the load across network links rather than balancing the server load itself\cite{saisagar2017sdn}. To facilitate this an algorithm was developed that used the default Dijkstra's algorithm for packet routing when packet load was under a certain threshold\cite{saisagar2017sdn}. This threshold was determined by processing capacity, port capacity and average traffic at each OpenFlow switch, if the load was above the threshold packets would be diverted to another switch\cite{saisagar2017sdn}. Although the algorithm worked as intended the results appear to be inconclusive without further evaluation and comparison against other load balancing algorithms and different traffic profiles. 
